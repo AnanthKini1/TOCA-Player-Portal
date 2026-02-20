@@ -1,10 +1,12 @@
  import { useState } from 'react';
  import type { Player } from '../types';
+ import { useNavigate } from 'react-router-dom';
 
 function SignIn() {
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,7 +24,10 @@ function SignIn() {
 
       const player: Player = await response.json();
       console.log('Player found:', player);
-      // TODO: Store player data and redirect to /home
+      
+      sessionStorage .setItem('player', JSON.stringify(player));
+
+      navigate('/home');
       
     } catch (err) {
         console.error('Error:', err);
