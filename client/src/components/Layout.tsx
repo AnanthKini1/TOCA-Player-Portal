@@ -32,7 +32,7 @@ function Layout() {
 
       {/* Header */}
       <header
-        className="relative z-10 sticky top-0"
+        className="relative z-50 sticky top-0"
         style={{
           background: 'rgba(0, 0, 0, 0.65)',
           backdropFilter: 'blur(16px)',
