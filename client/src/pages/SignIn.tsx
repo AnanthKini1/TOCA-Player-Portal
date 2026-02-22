@@ -75,13 +75,13 @@ function SignIn() {
             boxShadow: '0 30px 60px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255,255,255,0.1)',
           }}
         >
-          <h2 className="text-white/90 text-xl font-inter font-semibold mb-8 text-center tracking-wide">
+          <h2 className="text-white/90 text-2xl font-bebas tracking-widest mb-8 text-center">
             Sign In to Your Account
           </h2>
 
           <form onSubmit={handleSubmit}>
             <div className="mb-6">
-              <label className="block text-white/60 text-sm font-inter font-medium mb-2 tracking-wide uppercase">
+              <label className="block text-white/60 text-sm font-bebas tracking-widest mb-2">
                 Email Address
               </label>
               <input
