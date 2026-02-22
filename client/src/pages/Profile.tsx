@@ -79,8 +79,8 @@ function Profile() {
         <div
           className="p-8 flex items-center gap-5"
           style={{
-            background: 'linear-gradient(135deg, rgba(0, 102, 204, 0.55) 0%, rgba(0, 40, 120, 0.65) 100%)',
-            borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+            background: 'linear-gradient(135deg, rgba(22, 163, 74, 0.45) 0%, rgba(10, 70, 30, 0.65) 100%)',
+            borderBottom: '1px solid rgba(74, 222, 128, 0.15)',
           }}
         >
           {/* Avatar circle with initials */}
@@ -100,7 +100,7 @@ function Profile() {
             <h2 className="font-bebas tracking-widest text-3xl text-white leading-tight">
               {player.firstName} {player.lastName}
             </h2>
-            <p className="text-blue-200/65 font-inter text-sm mt-0.5">
+            <p className="font-inter text-sm mt-0.5" style={{ color: 'rgba(134, 239, 172, 0.7)' }}>
               {player.email}
             </p>
           </div>
@@ -122,7 +122,7 @@ function Profile() {
                   border: '1px solid rgba(255, 255, 255, 0.08)',
                 }}
               >
-                <p className="text-white/38 font-inter text-xs uppercase tracking-widest mb-1.5">
+                <p className="font-bebas tracking-widest text-sm mb-1.5" style={{ color: 'rgba(74, 222, 128, 0.7)' }}>
                   {field.label}
                 </p>
                 <p className="text-white font-inter font-medium text-base">
