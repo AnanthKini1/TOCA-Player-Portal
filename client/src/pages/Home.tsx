@@ -1,6 +1,34 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import type { Player, TrainingSession, Appointment } from '../types';
+import { motion } from 'framer-motion';
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 24 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: i * 0.07,
+      duration: 0.5,
+      ease: [0.22, 1, 0.36, 1] as [number, number, number, number],
+    },
+  }),
+};
+
+const glassBase: React.CSSProperties = {
+  background: 'rgba(255, 255, 255, 0.07)',
+  backdropFilter: 'blur(14px)',
+  WebkitBackdropFilter: 'blur(14px)',
+  border: '1px solid rgba(255, 255, 255, 0.11)',
+  boxShadow: '0 4px 24px rgba(0, 0, 0, 0.22)',
+};
+
+const glassHover: React.CSSProperties = {
+  background: 'rgba(255, 255, 255, 0.11)',
+  border: '1px solid rgba(74, 222, 128, 0.28)',
+  boxShadow: '0 10px 36px rgba(0, 0, 0, 0.32), 0 0 18px rgba(74, 222, 128, 0.07)',
+};
 
 function Home() {
   const getPlayerFromStorage = (): Player | null => {
@@ -49,46 +77,110 @@ function Home() {
   }, []);
 
   if (loading) {
-    return <div className="text-center py-8">Loading...</div>;
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] gap-5">
+        <div className="relative w-14 h-14">
+          <div
+            className="absolute inset-0 rounded-full"
+            style={{ border: '3px solid rgba(74, 222, 128, 0.15)' }}
+          />
+          <div
+            className="absolute inset-0 rounded-full animate-spin"
+            style={{ border: '3px solid transparent', borderTopColor: '#4ADE80' }}
+          />
+        </div>
+        <p className="text-white/40 font-inter text-xs tracking-[0.2em] uppercase">
+          Loading your data...
+        </p>
+      </div>
+    );
   }
 
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-8">
-        Welcome back, {player?.firstName}!
-      </h1>
+      {/* Welcome heading */}
+      <motion.h1
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+        className="text-5xl md:text-6xl font-bebas tracking-widest text-white mb-12 drop-shadow-lg"
+      >
+        WELCOME BACK,{' '}
+        <span style={{ color: '#4ADE80' }}>{player?.firstName?.toUpperCase()}</span>!
+      </motion.h1>
 
       {/* Past Training Sessions */}
-      <section className="mb-12">
-        <h2 className="text-2xl font-bold mb-4">Past Training Sessions</h2>
+      <section className="mb-14">
+        <motion.h2
+          initial={{ opacity: 0, x: -16 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="text-3xl font-bebas tracking-widest text-white mb-6"
+        >
+          PAST TRAINING SESSIONS
+        </motion.h2>
+
         <div className="grid gap-4">
           {sessions.length === 0 ? (
-            <p className="text-gray-500">No past sessions found.</p>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-white/40 font-inter"
+            >
+              No past sessions found.
+            </motion.p>
           ) : (
-            sessions.map((session) => (
-              <Link
+            sessions.map((session, i) => (
+              <motion.div
                 key={session.id}
-                to={`/sessions/${session.id}`}
-                className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition-shadow"
+                custom={i}
+                initial="hidden"
+                animate="visible"
+                variants={cardVariants}
+                whileHover={{ y: -3 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 28 }}
               >
-                <div className="flex justify-between items-start">
-                  <div>
-                    <h3 className="font-semibold text-lg">
-                      {session.trainerName}
-                    </h3>
-                    <p className="text-gray-600">
-                      {new Date(session.startTime).toLocaleDateString()} at{' '}
-                      {new Date(session.startTime).toLocaleTimeString()}
-                    </p>
+                <Link to={`/sessions/${session.id}`} className="block">
+                  <div
+                    className="p-6 rounded-xl transition-all duration-300"
+                    style={glassBase}
+                    onMouseEnter={(e) => Object.assign((e.currentTarget as HTMLElement).style, glassHover)}
+                    onMouseLeave={(e) => Object.assign((e.currentTarget as HTMLElement).style, glassBase)}
+                  >
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <h3 className="font-bebas tracking-wider text-xl text-white mb-1">
+                          {session.trainerName}
+                        </h3>
+                        <p className="text-white/45 font-inter text-sm">
+                          {new Date(session.startTime).toLocaleDateString('en-US', {
+                            weekday: 'long',
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                          })}{' '}
+                          at{' '}
+                          {new Date(session.startTime).toLocaleTimeString('en-US', {
+                            hour: '2-digit',
+                            minute: '2-digit',
+                          })}
+                        </p>
+                      </div>
+                      <div className="text-right flex-shrink-0 ml-6">
+                        <p
+                          className="text-4xl font-bebas tracking-wider"
+                          style={{ color: '#4ADE80' }}
+                        >
+                          {session.score}
+                        </p>
+                        <p className="text-white/35 font-inter text-xs uppercase tracking-widest">
+                          Score
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                  <div className="text-right">
-                    <p className="text-2xl font-bold text-blue-600">
-                      {session.score}
-                    </p>
-                    <p className="text-sm text-gray-500">Score</p>
-                  </div>
-                </div>
-              </Link>
+                </Link>
+              </motion.div>
             ))
           )}
         </div>
@@ -96,24 +188,70 @@ function Home() {
 
       {/* Upcoming Appointments */}
       <section>
-        <h2 className="text-2xl font-bold mb-4">Upcoming Appointments</h2>
+        <motion.h2
+          initial={{ opacity: 0, x: -16 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5, delay: 0.15 }}
+          className="text-3xl font-bebas tracking-widest text-white mb-6"
+        >
+          UPCOMING APPOINTMENTS
+        </motion.h2>
+
         <div className="grid gap-4">
           {appointments.length === 0 ? (
-            <p className="text-gray-500">No upcoming appointments.</p>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-white/40 font-inter"
+            >
+              No upcoming appointments.
+            </motion.p>
           ) : (
-            appointments.map((appointment) => (
-              <div
+            appointments.map((appointment, i) => (
+              <motion.div
                 key={appointment.id}
-                className="bg-white p-6 rounded-lg shadow"
+                custom={i}
+                initial="hidden"
+                animate="visible"
+                variants={cardVariants}
+                whileHover={{ y: -3 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 28 }}
+                className="p-6 rounded-xl transition-all duration-300"
+                style={glassBase}
+                onMouseEnter={(e) => Object.assign((e.currentTarget as HTMLElement).style, glassHover)}
+                onMouseLeave={(e) => Object.assign((e.currentTarget as HTMLElement).style, glassBase)}
               >
-                <h3 className="font-semibold text-lg">
-                  {appointment.trainerName}
-                </h3>
-                <p className="text-gray-600">
-                  {new Date(appointment.startTime).toLocaleDateString()} at{' '}
-                  {new Date(appointment.startTime).toLocaleTimeString()}
-                </p>
-              </div>
+                <div className="flex justify-between items-center">
+                  <div>
+                    <h3 className="font-bebas tracking-wider text-xl text-white mb-1">
+                      {appointment.trainerName}
+                    </h3>
+                    <p className="text-white/45 font-inter text-sm">
+                      {new Date(appointment.startTime).toLocaleDateString('en-US', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      })}{' '}
+                      at{' '}
+                      {new Date(appointment.startTime).toLocaleTimeString('en-US', {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      })}
+                    </p>
+                  </div>
+                  <div
+                    className="flex-shrink-0 ml-6 px-3 py-1 rounded-full font-inter text-xs uppercase tracking-widest"
+                    style={{
+                      background: 'rgba(74, 222, 128, 0.12)',
+                      border: '1px solid rgba(74, 222, 128, 0.3)',
+                      color: '#4ADE80',
+                    }}
+                  >
+                    Upcoming
+                  </div>
+                </div>
+              </motion.div>
             ))
           )}
         </div>
