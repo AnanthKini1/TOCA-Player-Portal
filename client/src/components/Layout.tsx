@@ -1,4 +1,5 @@
 import { Link, useNavigate, Outlet } from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 function Layout() {
   const navigate = useNavigate();
@@ -9,45 +10,97 @@ function Layout() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow">
-        <div className="max-w-screen-2xl mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-xl font-bold text-blue-600 px-2">TOCA Player Portal</h1>
-          <button
+    <div
+      className="min-h-screen relative"
+      style={{
+        backgroundImage: "url('/images/TOCA Background.png')",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
+      {/* Subtle dark overlay for readability */}
+      <div className="absolute inset-0 bg-black/50 pointer-events-none" />
+
+      {/* Header */}
+      <header
+        className="relative z-10 sticky top-0"
+        style={{
+          background: 'rgba(0, 0, 0, 0.65)',
+          backdropFilter: 'blur(16px)',
+          WebkitBackdropFilter: 'blur(16px)',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+        }}
+      >
+        <div className="max-w-screen-2xl mx-auto px-6 py-4 flex items-center justify-between">
+
+          {/* LEFT: Logout */}
+          <motion.button
             onClick={handleLogout}
-            className="px-4 py-2 mr-1 mt-1 bg-red-500 text-white rounded hover:bg-red-600"
+            whileHover={{ scale: 1.05, y: -1 }}
+            whileTap={{ scale: 0.95 }}
+            className="font-bebas tracking-widest text-base px-5 py-2 rounded-lg transition-colors duration-200"
+            style={{
+              background: 'rgba(74, 222, 128, 0.15)',
+              border: '1px solid rgba(74, 222, 128, 0.35)',
+              color: '#86efac',
+            }}
           >
-            Logout
-          </button>
+            LOGOUT
+          </motion.button>
+
+          {/* CENTER: Nav buttons */}
+          <div className="flex items-center gap-3">
+            <Link to="/about">
+              <motion.div
+                whileHover={{ scale: 1.05, y: -1 }}
+                whileTap={{ scale: 0.95 }}
+                className="font-bebas tracking-widest text-base px-5 py-2 rounded-lg transition-colors duration-200 cursor-pointer"
+                style={{
+                  background: 'rgba(22, 163, 74, 0.2)',
+                  border: '1px solid rgba(74, 222, 128, 0.4)',
+                  color: '#4ADE80',
+                  boxShadow: '0 0 12px rgba(74, 222, 128, 0.08)',
+                }}
+              >
+                ABOUT TOCA
+              </motion.div>
+            </Link>
+
+            <Link to="/profile">
+              <motion.div
+                whileHover={{ scale: 1.05, y: -1 }}
+                whileTap={{ scale: 0.95 }}
+                className="font-bebas tracking-widest text-base px-5 py-2 rounded-lg transition-colors duration-200 cursor-pointer"
+                style={{
+                  background: 'rgba(22, 163, 74, 0.2)',
+                  border: '1px solid rgba(74, 222, 128, 0.4)',
+                  color: '#4ADE80',
+                  boxShadow: '0 0 12px rgba(74, 222, 128, 0.08)',
+                }}
+              >
+                PROFILE
+              </motion.div>
+            </Link>
+          </div>
+
+          {/* RIGHT: Logo → /home */}
+          <Link to="/home">
+            <motion.img
+              src="/images/toca logo.png"
+              alt="TOCA"
+              whileHover={{ scale: 1.06 }}
+              whileTap={{ scale: 0.96 }}
+              className="h-10 object-contain cursor-pointer"
+            />
+          </Link>
+
         </div>
       </header>
 
-      <nav className="bg-white border-b">
-        <div className="max-w-screen-2xl mx-auto px-4">
-          <div className="flex space-x-8">
-            <Link
-              to="/home"
-              className="py-4 flex-1 text-center border-b-2 border-transparent hover:border-blue-500 hover:bg-blue-500 hover:text-white rounded-lg"
-            >
-              Home
-            </Link>
-            <Link
-              to="/about"
-              className="py-4 flex-1 text-center border-b-2 border-transparent hover:border-blue-500 hover:bg-blue-500 hover:text-white rounded-lg"
-            >
-              About TOCA
-            </Link>
-            <Link
-              to="/profile"
-              className="py-4 flex-1 text-center border-b-2 border-transparent hover:border-blue-500 hover:bg-blue-500 hover:text-white rounded-lg"
-            >
-              Profile
-            </Link>
-          </div>
-        </div>
-      </nav>
-
-      <main className="max-w-screen-2xl mx-auto px-4 py-8">
+      {/* Main content */}
+      <main className="relative z-10 max-w-screen-2xl mx-auto px-6 py-10">
         <Outlet />
       </main>
     </div>
