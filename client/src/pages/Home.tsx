@@ -161,7 +161,7 @@ function Home() {
                           })}{' '}
                           at{' '}
                           {new Date(session.startTime).toLocaleTimeString('en-US', {
-                            hour: '2-digit',
+                            hour: 'numeric',
                             minute: '2-digit',
                           })}
                         </p>
@@ -235,7 +235,7 @@ function Home() {
                       })}{' '}
                       at{' '}
                       {new Date(appointment.startTime).toLocaleTimeString('en-US', {
-                        hour: '2-digit',
+                        hour: 'numeric',
                         minute: '2-digit',
                       })}
                     </p>
