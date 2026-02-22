@@ -151,7 +151,7 @@ function SessionDetails() {
           })}{' '}
           at{' '}
           {new Date(session.startTime).toLocaleTimeString('en-US', {
-            hour: '2-digit',
+            hour: 'numeric',
             minute: '2-digit',
           })}
         </p>
