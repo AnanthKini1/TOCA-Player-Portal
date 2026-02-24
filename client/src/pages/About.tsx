@@ -34,7 +34,7 @@ function About() {
           The Next Generation of{' '}
           <span style={{ color: '#4ADE80' }}>Soccer Training</span>
         </h1>
-        <p className="text-lg text-white/55 font-inter leading-relaxed max-w-2xl">
+        <p className="text-lg text-white/85 font-inter leading-relaxed max-w-2xl">
           TOCA Football provides a one-of-a-kind, tech-enhanced soccer experience
           for players of all ages and skill levels.
         </p>
