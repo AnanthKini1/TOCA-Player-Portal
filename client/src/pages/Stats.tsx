@@ -94,14 +94,14 @@ function Stats() {
   // Performance trend — sessions are sorted most-recent first
   let trendLabel = 'Building History';
   let trendColor = '#94a3b8';
-  let trendSubtitle = 'Need 6+ sessions';
+  let trendSubtitle = 'Need 4+ sessions';
 
-  if (totalSessions >= 6) {
-    const recent3avg =
-      sessions.slice(0, 3).reduce((sum, s) => sum + s.score, 0) / 3;
-    const prior3avg =
-      sessions.slice(3, 6).reduce((sum, s) => sum + s.score, 0) / 3;
-    const delta = recent3avg - prior3avg;
+  if (totalSessions >= 4) {
+    const recent2avg =
+      sessions.slice(0, 2).reduce((sum, s) => sum + s.score, 0) / 2;
+    const prior2avg =
+      sessions.slice(2, 4).reduce((sum, s) => sum + s.score, 0) / 2;
+    const delta = recent2avg - prior2avg;
 
     if (delta > 2) {
       trendLabel = '↑ Improving';
