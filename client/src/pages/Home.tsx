@@ -96,6 +96,32 @@ function Home() {
     );
   }
 
+  // ── Next appointment countdown helpers ───────────────────────────────────
+  // appointments are sorted earliest-first; display the first one as-is from the data
+  const nextAppointment = appointments.length > 0 ? appointments[0] : null;
+
+  const getCountdownLabel = (startTime: string): string => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const apptDay = new Date(startTime);
+    apptDay.setHours(0, 0, 0, 0);
+    const diffDays = Math.round(
+      (apptDay.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
+    );
+    const timeStr = new Date(startTime).toLocaleTimeString('en-US', {
+      hour: 'numeric',
+      minute: '2-digit',
+    });
+    const dateStr = new Date(startTime).toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric',
+    });
+    if (diffDays === 0) return `Today at ${timeStr}`;
+    if (diffDays === 1) return `Tomorrow at ${timeStr}`;
+    if (diffDays <= 7) return `In ${diffDays} days · ${dateStr} at ${timeStr}`;
+    return `${dateStr} at ${timeStr}`;
+  };
+
   return (
     <div>
       {/* Welcome heading */}
@@ -108,6 +134,36 @@ function Home() {
         WELCOME BACK,{' '}
         <span style={{ color: '#4ADE80' }}>{player?.firstName?.toUpperCase()}</span>!
       </motion.h1>
+
+      {/* Next Appointment Countdown */}
+      {nextAppointment && (
+        <motion.div
+          initial={{ opacity: 0, y: -16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+          className="mb-10 p-5 rounded-xl"
+          style={{
+            background: 'rgba(74, 222, 128, 0.08)',
+            border: '1px solid rgba(74, 222, 128, 0.3)',
+            boxShadow: '0 4px 24px rgba(0, 0, 0, 0.22)',
+            backdropFilter: 'blur(14px)',
+            WebkitBackdropFilter: 'blur(14px)',
+          }}
+        >
+          <p
+            className="font-bebas tracking-widest text-sm mb-1"
+            style={{ color: 'rgba(74, 222, 128, 0.65)' }}
+          >
+            NEXT SESSION
+          </p>
+          <p className="font-bebas tracking-wider text-2xl" style={{ color: '#4ADE80' }}>
+            {getCountdownLabel(nextAppointment.startTime)}
+          </p>
+          <p className="font-inter text-sm mt-1" style={{ color: 'rgba(255, 255, 255, 0.45)' }}>
+            {nextAppointment.trainerName}
+          </p>
+        </motion.div>
+      )}
 
       {/* Past Training Sessions */}
       <section className="mb-14">

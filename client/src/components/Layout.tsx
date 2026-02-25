@@ -78,7 +78,19 @@ function Layout() {
             </motion.div>
           </Link>
 
-          {/* 4. Logout — TOP RIGHT */}
+          {/* 4. Stats */}
+          <Link to="/stats">
+            <motion.div
+              whileHover={{ scale: 1.05, y: -1 }}
+              whileTap={{ scale: 0.95 }}
+              className="font-bebas tracking-widest text-base px-5 py-2 rounded-lg transition-colors duration-200 cursor-pointer"
+              style={navButtonStyle}
+            >
+              STATS
+            </motion.div>
+          </Link>
+
+          {/* 5. Logout — TOP RIGHT */}
           <motion.button
             onClick={handleLogout}
             whileHover={{ scale: 1.05, y: -1 }}
