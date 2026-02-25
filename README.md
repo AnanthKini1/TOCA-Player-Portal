@@ -7,8 +7,9 @@ A personal training dashboard for TOCA Football players. After signing in with y
 ## What the App Does
 
 - **Sign In** — enter your registered email to access your portal
-- **Home** — see your past training sessions (with scores) and upcoming appointments
+- **Home** — see your next upcoming appointment, past training sessions (with scores), and all scheduled appointments
 - **Session Details** — tap any session to see your full stats (goals, speed, streak, etc.)
+- **Stats** — view your training analytics: total sessions, average score, personal best, performance trend, consistency rating, and total training hours
 - **Profile** — view your personal info and training center
 - **About TOCA** — learn about the TOCA Football story and mission
 
@@ -101,7 +102,7 @@ You should see the TOCA Player Portal sign-in page. Enter a registered player em
 TOCA Football Project/
 ├── client/          # React frontend (what you see in the browser)
 │   ├── src/
-│   │   ├── pages/   # SignIn, Home, About, Profile, SessionDetails
+│   │   ├── pages/   # SignIn, Home, About, Profile, Stats, SessionDetails
 │   │   ├── components/  # Layout (header + navigation)
 │   │   └── types/   # TypeScript type definitions
 │   └── public/
